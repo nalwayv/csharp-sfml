@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>   
+    <!-- PROPERTIES -->
+    <properties>
+        <propertie source="assets/gameover.png" id="gameovertext" type="texture"/>
+        <propertie source="assets/main.png" id="mainbutton" type="texture"/>
+        <propertie source="assets/resume.png" id="resumebutton" type="texture"/>
+        <propertie source="assets/audio/beep2.wav" id="beep" type="sound"/>
+    </properties>   
+    <!-- OBJECTS -->
+    <objects>
+        <object type="Button" x="200" y="200" width="200" height="80" id="mainbutton" callbackid="1" active="true" objtype="0" animated="false"/>
+        <object type="Button" x="200" y="300" width="200" height="80" id="resumebutton" callbackid="2" active="true" objtype="0" animated="false"/>
+        <object type="AnimatedText" x="305" y="115" width="190" height="30" id="gameovertext" callbackid="0" active="true" objtype="1" animated="true">
+            <animations>
+                <animation id="gameover" islooping="true" speed="0.8" frames="2" top="0" left="0" width="190" height="30"/>
+            </animations>
+        </object>
+    </objects>
+</root>

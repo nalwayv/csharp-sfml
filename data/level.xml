@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<version>1.2</version>
+	<tiledversion>1.2.3</tiledversion>
+	<type>map</type>
+	<orientation>orthogonal</orientation>
+	<renderorder>right-down</renderorder>
+	<width>10</width>
+	<height>7</height>
+	<tilewidth>64</tilewidth>
+	<tileheight>64</tileheight>
+	<infinite>0</infinite>
+	<nextlayerid>9</nextlayerid>
+	<nextobjectid>3</nextobjectid>
+
+	<!-- PROPERTIES -->
+	<properties>
+		<propertie source="assets/tilesheet.png" id="tilesheet" type="texture"/>
+		<propertie source="assets/adventurer.png" id="adventurer" type="texture"/>
+		<propertie source="assets/zombie.png" id="zombie" type="texture"/>
+		<propertie source="assets/audio/beep2.wav" id="beep" type="sound"/>
+	</properties>
+
+	<!-- TILESETS tile sheet info -->
+	<tilesets>
+		<tileset firstgid="1" id="tilesheet" tilewidth="64" tileheight="64" width="1408" height="768" spacing="0" margin="0" columns="22" tilecount="264"/>
+	</tilesets>
+
+	<!-- LAYERS  -->
+	<layers>
+		<layer id="1" name="Ground" width="10" height="7" x="0" y="0">
+			<data encoding="csv">
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,134,136,0,0,0,
+				0,134,135,135,135,133,177,135,136,0,
+				0,133,155,133,155,133,133,133,133,0
+			</data>
+		</layer>
+		<layer id="2" name="Water" width="10" height="7" x="0" y="0">
+			<data encoding="csv">
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				233,233,233,233,233,233,233,233,233,233
+			</data>
+		</layer>
+		<layer id="3" name="Plants" width="10" height="7" x="0" y="0">
+			<data encoding="csv">
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,122,0,0,0,
+				0,121,0,0,0,0,0,0,99,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0
+			</data>
+		</layer>
+		<layer id="4" name="Signs" width="10" height="7" x="0" y="0">
+			<data encoding="csv">
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,237,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0
+			</data>
+		</layer>
+	</layers>
+
+	<!-- OBJECT-GROUPS -->
+	<objectgroups>
+		<objectgroup id="8" name="Object Layer 1">
+			<!-- OBJECTS -->
+			<objects>
+				<object type="Player" id="adventurer" x="322" y="140" width="80" height="110" callbackid="0" active="true" objtype="1" animated="true">
+					<!-- ANIMATIONS -->
+					<animations>
+						<animation id="duck" islooping="true" speed="0.8" frames="1" top="240" left="0" width="80" height="110"/>
+						<animation id="walk" islooping="true" speed="0.8" frames="2" top="0" left="110" width="80" height="110"/>
+						<animation id="stand" islooping="true" speed="0.8" frames="1" top="0" left="0" width="80" height="110"/>
+					</animations>
+				</object>
+				
+				<object type="Enemy" id="zombie" x="180" y="270" width="80" height="110" callbackid="0" active="true" objtype="1" animated="true">
+					<!-- ANIMATIONS -->
+					<animations>
+						<animation id="duck" islooping="true" speed="0.8" frames="1" top="240" left="0" width="80" height="110"/>
+						<animation id="walk" islooping="true" speed="0.8" frames="2" top="0" left="110" width="80" height="110"/>
+						<animation id="stand" islooping="true" speed="0.8" frames="1" top="0" left="0" width="80" height="110"/>
+					</animations>
+				</object>
+			</objects>
+		</objectgroup>
+	</objectgroups>
+</root>

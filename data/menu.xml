@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <!-- PROPERTIES -->
+    <properties>
+        <propertie source="assets/button.png" id="playbutton" type="texture"/>
+        <propertie source="assets/exit.png" id="exitbutton" type="texture"/>
+		<propertie source="assets/audio/beep2.wav" id="beep" type="sound"/>
+    </properties>
+
+    <!-- OBJECTS -->
+    <objects>
+        <object type="Button" x="100" y="100" width="400" height="100" id="playbutton" callbackid="1" active="true" objtype="0" animated="false"/>
+        <object type="Button" x="100" y="300" width="400" height="100" id="exitbutton" callbackid="2" active="true" objtype="0" animated="false"/>
+    </objects>
+</root>
