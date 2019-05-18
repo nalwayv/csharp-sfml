@@ -11,7 +11,7 @@ namespace csharp_sfml
         Box,
     }
 
-    public class GameData
+    public struct GameData
     {
         public int ObjType;
         public bool IsActive;
@@ -26,12 +26,10 @@ namespace csharp_sfml
         public float Angle;
         public int CollisionType;
         public float Scale;
-
         public float Top;
         public float Bottom;
         public float Left;
         public float Right;
-
         public IntRect TextureDestination;
         public Vector2f Position;
         public Vector2f Velocity;
@@ -39,34 +37,6 @@ namespace csharp_sfml
         public Vector2f Center;
         public Animator Animator;
         public Collision Collisions;
-
-        public GameData()
-        {
-            ObjType = 0;
-            IsActive = false;
-            TextureID = "";
-            Radius = 0.0f;
-            Width = 0;
-            Height = 0;
-            CallBackID = 0;
-            IsAnimated = false;
-            CurrentFrame = 0;
-            CurrentRow = 0;
-            CollisionType = 0;
-            Angle = 0.0f;
-            Scale = 0.0f;
-            Top = 0;
-            Bottom = 0;
-            Left = 0;
-            Right = 0;
-            TextureDestination = new IntRect(0, 0, 0, 0);
-            Position = new Vector2f(0, 0);
-            Velocity = new Vector2f(0, 0);
-            Acceleration = new Vector2f(0, 0);
-            Center = new Vector2f();
-            Animator = null;
-            Collisions = null;
-        }
     }
 
     public class GameObject : IGameObj
