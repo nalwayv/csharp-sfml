@@ -27,7 +27,6 @@ namespace csharp_sfml
         public Time TimePerFrame { get => timePerFrame; set => timePerFrame = value; }
         public Clock Clock { get => clock; private set => clock = value; }
         public Window Window { get => window; private set => window = value; }
-
         public StateMachine StateMachine { get => stateMachine; private set => stateMachine = value; }
         // ---
 
@@ -55,7 +54,7 @@ namespace csharp_sfml
             SFML.Window.Joystick.Update();
             InputHandler.Instance.InitJoy(0);
 
-            // add bank obj to factory
+            // add blank obj to factory
             Factory.Instance.Register("Player", new CreatePlayer());
             Factory.Instance.Register("Enemy", new CreateEnemy());
             Factory.Instance.Register("Button", new CreateMenuButton());

@@ -32,7 +32,7 @@ namespace csharp_sfml
                 }
             }
 
-            if(level.PtPlayer.Obj.CollidesWith(level.PtEnemy.Obj))
+            if(level.PtPlayer.Obj.CollidesWith(level.PtEnemy.Obj.Data))
             {
                 // Console.WriteLine("Y|.");
             }

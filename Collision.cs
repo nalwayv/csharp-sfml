@@ -10,7 +10,7 @@ namespace csharp_sfml
 
         }
 
-        public bool CollideBox(GameObject self, GameObject other)
+        public bool CollideBox(GameData self, GameData other)
         {
             if (!self.IsActive || !other.IsActive)
             {
@@ -28,7 +28,7 @@ namespace csharp_sfml
             return false;
         }
 
-        public bool CollideCircle(GameObject self, GameObject other)
+        public bool CollideCircle(GameData self, GameData other)
         {
             if (!self.IsActive || !other.IsActive)
             {
@@ -36,7 +36,7 @@ namespace csharp_sfml
             }
 
             var sumR = self.Radius + other.Radius;
-            var dis = self.Center() - other.Center();
+            var dis = self.Center - other.Center;
 
             if (MathHelper.LengthSqu(dis) <= (sumR * sumR))
             {

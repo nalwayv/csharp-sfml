@@ -31,6 +31,11 @@ namespace csharp_sfml
             return degrees * val;
         }
 
+        public static float Normalization(float value, float minValue, float maxValue)
+        {
+            return (value - minValue) / (maxValue - minValue);
+        }
+
         // --- VECTOR
 
         public static float LengthSqrt(Vector2f vec)

@@ -54,6 +54,9 @@ namespace csharp_sfml
                 // create sprite and store it with its texture
                 var sprite = new Sprite();
 
+                sprite.Texture = texture;
+
+
                 var td = new TextureData(texture, sprite);
                 textureData.Add(id, td);
 
@@ -98,11 +101,11 @@ namespace csharp_sfml
         {
             var data = textureData[id];
 
-            data.Sprite.Texture = data.Texture;
-
             data.Sprite.Position = new Vector2f(x, y);
 
             data.Sprite.TextureRect = new IntRect(0, 0, w, h); // part of the texture to render
+            
+            data.Sprite.Origin = new Vector2f(0,0);
 
             data.Sprite.Rotation = angle;
 
@@ -131,9 +134,10 @@ namespace csharp_sfml
         {
             var data = textureData[id];
 
-            data.Sprite.Texture = data.Texture;
 
             data.Sprite.Position = new Vector2f(x, y);
+
+            data.Sprite.Origin = new Vector2f(0,0);
 
             data.Sprite.TextureRect = new IntRect(
                 w * currentframe,
@@ -169,7 +173,6 @@ namespace csharp_sfml
         {
             var data = textureData[id];
 
-            data.Sprite.Texture = data.Texture;
 
             data.Sprite.Position = new Vector2f(x, y);
 
@@ -177,7 +180,7 @@ namespace csharp_sfml
 
             data.Sprite.Rotation = angle;
 
-            data.Sprite.Origin = new Vector2f(w /2, h /2f);
+            data.Sprite.Origin = new Vector2f(w*.5f,h*.5f);
 
             window.Draw(data.Sprite);
         }
@@ -208,9 +211,9 @@ namespace csharp_sfml
         {
             var data = textureData[id];
 
-            data.Sprite.Texture = data.Texture;
-
             data.Sprite.Position = new Vector2f(x, y);
+
+            data.Sprite.Origin = new Vector2f(0,0);
 
             data.Sprite.TextureRect = new IntRect(
                 margin + (spacing + w) * currentframe,

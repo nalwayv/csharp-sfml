@@ -7,52 +7,83 @@ namespace csharp_sfml
 {
     enum CollisionType
     {
-        Circle, 
+        Circle,
         Box,
+    }
+
+    public class GameData
+    {
+        public int ObjType;
+        public bool IsActive;
+        public string TextureID;
+        public float Radius;
+        public int Width;
+        public int Height;
+        public int CallBackID;
+        public bool IsAnimated;
+        public int CurrentFrame;
+        public int CurrentRow;
+        public float Angle;
+        public int CollisionType;
+        public float Scale;
+
+        public float Top;
+        public float Bottom;
+        public float Left;
+        public float Right;
+
+        public IntRect TextureDestination;
+        public Vector2f Position;
+        public Vector2f Velocity;
+        public Vector2f Acceleration;
+        public Vector2f Center;
+        public Animator Animator;
+        public Collision Collisions;
+
+        public GameData()
+        {
+            ObjType = 0;
+            IsActive = false;
+            TextureID = "";
+            Radius = 0.0f;
+            Width = 0;
+            Height = 0;
+            CallBackID = 0;
+            IsAnimated = false;
+            CurrentFrame = 0;
+            CurrentRow = 0;
+            CollisionType = 0;
+            Angle = 0.0f;
+            Scale = 0.0f;
+            Top = 0;
+            Bottom = 0;
+            Left = 0;
+            Right = 0;
+            TextureDestination = new IntRect(0, 0, 0, 0);
+            Position = new Vector2f(0, 0);
+            Velocity = new Vector2f(0, 0);
+            Acceleration = new Vector2f(0, 0);
+            Center = new Vector2f();
+            Animator = null;
+            Collisions = null;
+        }
     }
 
     public class GameObject : IGameObj
     {
-        int objtype;
-        bool isActive;
-        string textureID;
-        float radius;
-        int width;
-        int height;
-        int callbackid;
-        Node2D node2d;
-        bool isanimated;
-        int currentFrame;
-        int currentRow;
-        IntRect destRect;
-        Animator animator;
-        Collision collision;
-        int collisionType;
+        GameData data;
 
-        public bool IsActive { get => isActive; set => isActive = value; }
-        public Vector2f Position { get => node2d.Position; set => node2d.Position = value; }
-        public Vector2f Velocity { get => node2d.Velocity; set => node2d.Velocity = value; }
-        public Vector2f Acceleration { get => node2d.Acceleration; set => node2d.Acceleration = value; }
-        public float Scale { get => node2d.Scale; set => node2d.Scale = value; }
-        public float Angle { get => node2d.Angle; set => node2d.Angle = value; } 
-        public float Radius { get => radius; set => radius = value; }
-        public int Width { get => width; set => width = value; }
-        public int Height { get => height; set => height = value; }
-        public float Left { get => node2d.Position.X - width / 2; }
-        public float Top { get => node2d.Position.Y - height / 2; }
-        public float Right { get => node2d.Position.X + width / 2; }
-        public float Bottom { get => node2d.Position.Y + height / 2; }
-        public float CenterX { get => node2d.Position.X; }
-        public float CenterY { get => node2d.Position.Y; }
-
-        // mainly used for buttons
-        public int CurrentFrame { get => currentFrame; set => currentFrame = value; }
-        public int CurrentRow { get => currentRow; set => currentRow = value; }
-        public int CallbackID { get => callbackid; set => callbackid = value; }
-
-        public bool IsAnimated { get => isanimated; set => isanimated = value; }
-        public Animator Animator { get => animator; set => animator = value; }
-        public Collision Collision { get => collision; set => collision = value; }
+        public bool IsActive { get => data.IsActive; set => data.IsActive = value; }
+        public Vector2f Position { get => data.Position; set => data.Position = value; }
+        public Vector2f Velocity { get => data.Velocity; set => data.Velocity = value; }
+        public Vector2f Acceleration { get => data.Acceleration; set => data.Acceleration = value; }
+        public float Angle { get => data.Angle; set => data.Angle = value; }
+        public float Radius { get => data.Radius; set => data.Radius = value; }
+        public int Width { get => data.Width; set => data.Width = value; }
+        public int Height { get => data.Height; set => data.Height = value; }
+        public int CurrentFrame { get => data.CurrentFrame; set => data.CurrentFrame = value; }
+        public Animator Animator { get => data.Animator; set => data.Animator = value; }
+        public GameData Data { get => data; }
 
         public GameObject()
         {
@@ -60,130 +91,121 @@ namespace csharp_sfml
 
         public Vector2f Center()
         {
-            return new Vector2f(CenterX, CenterY);
+            return new Vector2f(data.Position.X, data.Position.Y);
         }
 
         public void SetVelX(float val)
         {
-            node2d.SetVelocityX(val);
+            data.Velocity.X = val;
         }
 
         public void SetVelY(float val)
         {
-            node2d.SetVelocityY(val);
+            data.Velocity.Y = val;
         }
 
         public void Load(LoadParams p)
         {
-            this.isActive = p.IsActive;
-
-            this.objtype = p.Objtype;
-
-            node2d = new Node2D(
-                new Vector2f(p.X, p.Y),
-                new Vector2f(),
-                new Vector2f(),
-                0.0f,
-                1f);
-
-
-            this.textureID = p.TextureID;
-
-            this.width = p.Width;
-            this.height = p.Height;
-            this.radius = 45.0f;
-
-            this.callbackid = p.CallBackID;
-
-
-            collision = new Collision();
-            collisionType = (int)CollisionType.Box;
-
-            this.destRect = new IntRect();
-
-            this.IsAnimated = p.IsAnimated;
-            this.currentRow = 0;
-            this.currentFrame = 0;
-            if (IsAnimated)
+            data = new GameData();
+            data.IsActive = p.IsActive;
+            data.ObjType = p.Objtype;
+            data.Position.X = p.X;
+            data.Position.Y = p.Y;
+            data.Scale = 1.0f;
+            data.TextureID = p.TextureID;
+            data.Width = p.Width;
+            data.Height = p.Height;
+            data.Left = data.Position.X - (data.Width * 0.5f);
+            data.Top = data.Position.Y - (data.Height * 0.5f);
+            data.Right = data.Position.X + (data.Width * 0.5f);
+            data.Bottom = data.Position.Y + (data.Height * 0.5f);
+            data.CallBackID = p.CallBackID;
+            data.CollisionType = (int)CollisionType.Box;
+            data.IsAnimated = p.IsAnimated;
+            data.Center.X = data.Position.X;
+            data.Center.Y = data.Position.Y;
+            if (data.IsAnimated)
             {
-                animator = new Animator(p.Animations);
+                data.Animator = new Animator(p.Animations);
             }
+            data.Collisions = new Collision();
         }
 
-        public bool CollidesWith(GameObject other){
-            if(!isActive || !other.isActive)
+        public bool CollidesWith(GameData other)
+        {
+            if (!data.IsActive || !other.IsActive)
             {
                 return false;
             }
 
-            if(collisionType == (int)CollisionType.Box && other.collisionType == (int)CollisionType.Box)
+            if (data.CollisionType == (int)CollisionType.Box && other.CollisionType == (int)CollisionType.Box)
             {
-                return Collision.CollideBox(this, other);
+                return data.Collisions.CollideBox(data, other);
             }
 
-            if(collisionType == (int)CollisionType.Circle && other.collisionType == (int)CollisionType.Circle)
+            if (data.CollisionType == (int)CollisionType.Circle && other.CollisionType == (int)CollisionType.Circle)
             {
-                return Collision.CollideCircle(this, other);
+                return data.Collisions.CollideCircle(data, other);
             }
             return false;
         }
 
         public void Update()
         {
-            if (!isActive)
+            if (!data.IsActive)
             {
                 return;
             }
 
-            node2d.Velocity += node2d.Acceleration;
-            node2d.Position += node2d.Velocity;
+            data.Velocity += data.Acceleration;
+            data.Position += data.Velocity;
 
-            if (IsAnimated)
+            if (data.IsAnimated)
             {
-                destRect = animator.UpdateAnim();
+                data.TextureDestination = data.Animator.UpdateAnim();
             }
         }
 
         public void Draw()
         {
-            if (!isActive)
+            if (!data.IsActive)
             {
                 return;
             }
 
-            if (IsAnimated)
+            if (data.IsAnimated)
             {
                 TextureHandler.Instance.DrawAnimation(
-                        textureID,
-                        (int)node2d.Position.X,
-                        (int)node2d.Position.Y,
-                        destRect.Left,
-                        destRect.Top,
-                        destRect.Width,
-                        destRect.Height,
-                        node2d.Angle,
+                        data.TextureID,
+                        (int)data.Position.X,
+                        (int)data.Position.Y,
+                        data.TextureDestination.Left,
+                        data.TextureDestination.Top,
+                        data.TextureDestination.Width,
+                        data.TextureDestination.Height,
+                        data.Angle,
                         Game.Instance.Window.GetWindow
                     );
             }
             else
             {
                 TextureHandler.Instance.DrawFrame(
-                    textureID,
-                    (int)node2d.Position.X,
-                    (int)node2d.Position.Y,
-                    width,
-                    height,
-                    currentRow,
-                    currentFrame,
+                    data.TextureID,
+                    (int)data.Position.X,
+                    (int)data.Position.Y,
+                    data.Width,
+                    data.Height,
+                    data.CurrentRow,
+                    data.CurrentFrame,
                     Game.Instance.Window.GetWindow);
             }
         }
 
         public void Clean()
         {
-            if (IsAnimated)
+            if (data.IsAnimated)
             {
-                animator.Clear();
+                data.Animator.Clear();
             }
         }
     }
