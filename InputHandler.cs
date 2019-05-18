@@ -51,23 +51,18 @@ namespace csharp_sfml
     #endregion
 
     #region JOYSTICKS
+    public struct JStickData
+    {
+        public float DeadZone;
+        public int ID;
+        public Vector2f First;
+        public Vector2f Second;
+        public List<bool> InButtons;
+    }
+
     public class JStick
     {
-        const float DEADZONE = 50.0f;
-
-        int id;
-        //sticks
-        Vector2f first;
-        Vector2f second;
-        // buttons
-        List<bool> inButtons;
-
-        public Vector2f First { get => first; set => first = value; }
-        public Vector2f Second { get => second; set => second = value; }
-        public float FirstX { get => first.X; set => first.X = value; }
-        public float FirstY { get => first.X; set => first.X = value; }
-        public float SecondX { get => second.X; set => second.X = value; }
-        public float SecondY { get => second.X; set => second.X = value; }
+        JStickData data;
 
         public JStick(int id)
         {
@@ -76,49 +71,47 @@ namespace csharp_sfml
 
         public void Init(int id)
         {
-            // set id
-            this.id = id;
-
-            // sticks
-            first = new Vector2f(0, 0);
-            second = new Vector2f(0, 0);
-            inButtons = new List<bool>();
+            data = new JStickData();
+            data.DeadZone = 50.0f;
+            data.ID = id;
+            data.First = new Vector2f();
+            data.Second = new Vector2f();
+            data.InButtons = new List<bool>();            
 
             // buttons
             var numButtons = SFML.Window.Joystick.GetButtonCount((uint)id);
             for (var b = 0; b < numButtons; b++)
             {
-                inButtons.Add(false);
+                data.InButtons.Add(false);
             }
         }
 
         public void OnJoyButtonDown(uint button)
         {
-            inButtons[(int)button] = true;
+            data.InButtons[(int)button] = true;
         }
 
         public void OnJoyButtonUp(uint button)
         {
-            inButtons[(int)button] = false;
+            data.InButtons[(int)button] = false;
         }
 
         public bool GetButtonState(uint button)
         {
-            return inButtons[(int)button];
+            return data.InButtons[(int)button];
         }
-
 
         public int GetXValue(int stick)
         {
             // left stick (x,y)
             if (stick == 1)
             {
-                return (int)first.X;
+                return (int)data.First.X;
             }
             // right stick (y,u)
             else if (stick == 2)
             {
-                return (int)second.X;
+                return (int)data.Second.X;
             }
 
             return 0;
@@ -130,12 +123,12 @@ namespace csharp_sfml
             // left stick (x,y)
             if (stick == 1)
             {
-                return (int)first.Y;
+                return (int)data.First.Y;
             }
             // right stick (y,u)
             else if (stick == 2)
             {
-                return (int)second.Y;
+                return (int)data.Second.Y;
             }
 
             return 0;
@@ -147,38 +140,38 @@ namespace csharp_sfml
             if (axis == SFML.Window.Joystick.Axis.X)
             {
                 // left
-                if (SFML.Window.Joystick.GetAxisPosition((uint)id, axis) > DEADZONE)
+                if (SFML.Window.Joystick.GetAxisPosition((uint)data.ID, axis) > data.DeadZone)
                 {
-                    first.X = 1;
+                    data.First.X = 1;
                 }
                 // right
-                else if (SFML.Window.Joystick.GetAxisPosition((uint)id, axis) < -DEADZONE)
+                else if (SFML.Window.Joystick.GetAxisPosition((uint)data.ID, axis) < -data.DeadZone)
                 {
-                    first.X = -1;
+                    data.First.X = -1;
                 }
                 // reset
                 else
                 {
-                    first.X = 0;
+                    data.First.X = 0;
                 }
             }
 
             if (axis == SFML.Window.Joystick.Axis.Y)
             {
                 // left
-                if (SFML.Window.Joystick.GetAxisPosition((uint)id, axis) > DEADZONE)
+                if (SFML.Window.Joystick.GetAxisPosition((uint)data.ID, axis) > data.DeadZone)
                 {
-                    first.Y = 1;
+                    data.First.Y = 1;
                 }
                 // right
-                else if (SFML.Window.Joystick.GetAxisPosition((uint)id, axis) < -DEADZONE)
+                else if (SFML.Window.Joystick.GetAxisPosition((uint)data.ID, axis) < -data.DeadZone)
                 {
-                    first.Y = -1;
+                    data.First.Y = -1;
                 }
                 // reset
                 else
                 {
-                    first.Y = 0;
+                    data.First.Y = 0;
                 }
             }
 
@@ -186,38 +179,38 @@ namespace csharp_sfml
             if (axis == SFML.Window.Joystick.Axis.V)
             {
                 // left
-                if (SFML.Window.Joystick.GetAxisPosition((uint)id, axis) > DEADZONE)
+                if (SFML.Window.Joystick.GetAxisPosition((uint)data.ID, axis) > data.DeadZone)
                 {
-                    second.X = 1;
+                    data.Second.X = 1;
                 }
                 // right
-                else if (SFML.Window.Joystick.GetAxisPosition((uint)id, axis) < -DEADZONE)
+                else if (SFML.Window.Joystick.GetAxisPosition((uint)data.ID, axis) < -data.DeadZone)
                 {
-                    second.X = -1;
+                    data.Second.X = -1;
                 }
                 // reset
                 else
                 {
-                    second.X = 0;
+                    data.Second.X = 0;
                 }
             }
 
             if (axis == SFML.Window.Joystick.Axis.U)
             {
                 // left
-                if (SFML.Window.Joystick.GetAxisPosition((uint)id, axis) > DEADZONE)
+                if (SFML.Window.Joystick.GetAxisPosition((uint)data.ID, axis) > data.DeadZone)
                 {
-                    second.Y = 1;
+                    data.Second.Y = 1;
                 }
                 // right
-                else if (SFML.Window.Joystick.GetAxisPosition((uint)id, axis) < -DEADZONE)
+                else if (SFML.Window.Joystick.GetAxisPosition((uint)data.ID, axis) < -data.DeadZone)
                 {
-                    second.Y = -1;
+                    data.Second.Y = -1;
                 }
                 // reset
                 else
                 {
-                    second.Y = 0;
+                    data.Second.Y = 0;
                 }
             }
         }
@@ -251,13 +244,14 @@ namespace csharp_sfml
             jsInitialised = false;
         }
 
-
         // --- poll events
+        
         public void Update()
         {
             Game.Instance.Window.GetWindow.Closed += (s, e) => Game.Instance.Window.GetWindow.Close();
 
             // --- joy
+
             Game.Instance.Window.GetWindow.JoystickButtonPressed += (s, e) =>
             {
                 if (IsJsInitialised)
@@ -296,6 +290,7 @@ namespace csharp_sfml
             };
 
             // --- mouse
+
             Game.Instance.Window.GetWindow.MouseMoved += (s, e) =>
             {
                 OnMouseMove(e.X, e.Y);
@@ -339,10 +334,6 @@ namespace csharp_sfml
         
         // --- joy
 
-        /// <summary>
-        /// initialise joy stick at id
-        /// </summary>
-        /// <param name="joyID">joy stick id</param>
         public void InitJoy(uint joyID)
         {
             if (SFML.Window.Joystick.IsConnected(joyID))
@@ -400,7 +391,6 @@ namespace csharp_sfml
         // --- keys
         private void OnKeyDown(SFML.Window.Keyboard.Key k)
         {
-            // var r = SFML.Window.Keyboard.IsKeyPressed(k);
             keys[k] = true;
         }
 
@@ -411,7 +401,6 @@ namespace csharp_sfml
 
         public bool IsPressed(SFML.Window.Keyboard.Key k)
         {
-            // if not found add it 
             if (!keys.ContainsKey(k))
             {
                 keys[k] = false;
@@ -428,22 +417,12 @@ namespace csharp_sfml
         | RIGHT       |   1   |
         | MIDDLE      |   2   |
         **/
-
-        /// <summary>
-        /// get current mouse pos on screen
-        /// </summary>
-        /// <param name="x">mouse x pos</param>
-        /// <param name="y">mouse y pos</param>
         private void OnMouseMove(int x, int y)
         {
             mouePos.X = x;
             mouePos.Y = y;
         }
 
-        /// <summary>
-        /// get mouse position
-        /// </summary>
-        /// <returns></returns>
         public Vector2f GetMousePosition()
         {
             return mouePos;
