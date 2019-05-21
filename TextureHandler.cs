@@ -37,8 +37,6 @@ namespace csharp_sfml
         /// <summary>
         ///     Load a new texture from file into the texture map
         /// </summary>
-        /// <param name="fileName">file location</param>
-        /// <param name="id">id to give texture within map</param>
         public void Load(string fileName, string id)
         {
             try
@@ -71,7 +69,6 @@ namespace csharp_sfml
         /// <summary>
         ///     Clear from texture map
         /// </summary>
-        /// <param name="id">id name for texture</param>
         public void ClearFromTextures(string id)
         {
             if (textureData.ContainsKey(id))
@@ -84,13 +81,6 @@ namespace csharp_sfml
         /// <summary>
         ///     Draw texture
         /// </summary>
-        /// <param name="id">texture id</param>
-        /// <param name="x">x position</param>
-        /// <param name="y">y position</param>
-        /// <param name="w">with</param>
-        /// <param name="h">height</param>
-        /// <param name="angle">angle</param>
-        /// <param name="window">render window</param>
         public void Draw(string id,
                          int x,
                          int y,
@@ -108,21 +98,13 @@ namespace csharp_sfml
             data.Sprite.Origin = new Vector2f(0,0);
 
             data.Sprite.Rotation = angle;
-
+            
             window.Draw(data.Sprite);
         }
 
         /// <summary>
         ///     Draw a single frame
         /// </summary>
-        /// <param name="id">texture id</param>
-        /// <param name="x">x position</param>
-        /// <param name="y">y position</param>
-        /// <param name="w">width</param>
-        /// <param name="h">height</param>
-        /// <param name="currentrow">current row on tile sheet</param>
-        /// <param name="currentframe">current frame on tile sheet</param>
-        /// <param name="window">render window</param>
         public void DrawFrame(string id,
                             int x,
                             int y,
@@ -152,15 +134,6 @@ namespace csharp_sfml
         /// <summary>
         ///     Draw animation used with animated sprites
         /// </summary>
-        /// <param name="id">texture id</param>
-        /// <param name="x">x position</param>
-        /// <param name="y">y position</param>
-        /// <param name="left">left destination position</param>
-        /// <param name="top">right destination position</param>
-        /// <param name="w">width</param>
-        /// <param name="h">height</param>
-        /// <param name="angle">angle</param>
-        /// <param name="window">render window</param>
         public void DrawAnimation(string id,
                                 int x,
                                 int y,
@@ -188,16 +161,6 @@ namespace csharp_sfml
         /// <summary>
         ///     Draw tile
         /// </summary>
-        /// <param name="id">texture id</param>
-        /// <param name="margin">margin between tiles on sheet</param>
-        /// <param name="spacing">spacing between tiles on sheet</param>
-        /// <param name="x">x position</param>
-        /// <param name="y">y position</param>
-        /// <param name="w">with</param>
-        /// <param name="h">height</param>
-        /// <param name="currentrow">tile coords</param>
-        /// <param name="currentframe">tile coords</param>
-        /// <param name="window">render window</param>
         public void DrawTile(string id,
                             int margin,
                             int spacing,

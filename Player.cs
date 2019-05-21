@@ -5,6 +5,7 @@ namespace csharp_sfml
     public class Player : IGameObj
     {
         GameObject obj;
+        const float Speed = 2.5f;
 
         public GameObject Obj { get => obj; set => obj = value; }
 
@@ -42,24 +43,20 @@ namespace csharp_sfml
 
         private void HandleInput()
         {
-            // joystick
             if (InputHandler.Instance.IsJsInitialised)
             {
                 // left right
                 if (InputHandler.Instance.GetXValue(0, 1) > 0 ||
                     InputHandler.Instance.GetXValue(0, 1) < 0)
                 {
-                    // speed * dir
-                    var vel = 2.5f * InputHandler.Instance.GetXValue(0, 1);
-                    obj.SetVelX(vel);
+                    obj.SetVelX(InputHandler.Instance.GetXValue(0, 1));
                 }
 
                 // up down
                 if (InputHandler.Instance.GetYValue(0, 1) > 0 ||
                     InputHandler.Instance.GetYValue(0, 1) < 0)
                 {
-                    var vel = 2.5f * InputHandler.Instance.GetYValue(0, 1);
-                    obj.SetVelY(vel);
+                    obj.SetVelY(InputHandler.Instance.GetYValue(0, 1));
                 }
 
                 // diagonal 'slowdown'
@@ -68,12 +65,11 @@ namespace csharp_sfml
                     (InputHandler.Instance.GetXValue(0, 1) < 0 && InputHandler.Instance.GetYValue(0, 1) < 0) ||
                     (InputHandler.Instance.GetXValue(0, 1) < 0 && InputHandler.Instance.GetYValue(0, 1) > 0))
                 {
-                    // slow down character on diagonal movement
-                    var s = 0.707106f; // sqrt of 0.5
-                    obj.Velocity *= s;
+                    obj.Velocity *= 0.707106f;
                 }
 
-                if(InputHandler.Instance.GetButtonState(0,(uint)Buttons.RB)){
+                if (InputHandler.Instance.GetButtonState(0, (uint)Buttons.RB))
+                {
                     if (obj.Angle > 360)
                     {
                         obj.Angle = 0;
@@ -81,7 +77,8 @@ namespace csharp_sfml
                     obj.Angle += 1;
                 }
 
-                if(InputHandler.Instance.GetButtonState(0,(uint)Buttons.LB)){
+                if (InputHandler.Instance.GetButtonState(0, (uint)Buttons.LB))
+                {
                     if (obj.Angle < 0)
                     {
                         obj.Angle = 360;
@@ -89,8 +86,17 @@ namespace csharp_sfml
                     obj.Angle -= 1;
                 }
 
+                if (MathHelper.LengthSqu(obj.Velocity) > 0)
+                {
+                    obj.Velocity = MathHelper.Normalize(obj.Velocity) * Speed;
+                    obj.Animator.SwitchAnimation("walk");
+
+                }
+                else
+                {
+                    obj.Animator.SwitchAnimation("stand");
+                }
             }
-            // mouse / keys
             else
             {
                 var target = InputHandler.Instance.GetMousePosition();
@@ -98,13 +104,11 @@ namespace csharp_sfml
 
                 if (MathHelper.LengthSqu(target - obj.Center()) > 10)
                 {
-                    obj.Velocity = dis * 5;
+                    obj.Velocity = dis * Speed;
                 }
 
-                // rotation
                 if (InputHandler.Instance.IsPressed(SFML.Window.Keyboard.Key.Q))
                 {
-                    // sfml uses degrees
                     if (obj.Angle < 0)
                     {
                         obj.Angle = 360;
@@ -113,7 +117,6 @@ namespace csharp_sfml
                 }
                 if (InputHandler.Instance.IsPressed(SFML.Window.Keyboard.Key.E))
                 {
-                    // sfml uses degrees
                     if (obj.Angle > 360)
                     {
                         obj.Angle = 0;
