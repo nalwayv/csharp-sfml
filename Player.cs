@@ -100,12 +100,20 @@ namespace csharp_sfml
             else
             {
                 var target = InputHandler.Instance.GetMousePosition();
-                var dis = MathHelper.Normalize(target - obj.Center());
+                var direction = target - obj.Center();
+                var dirNormal = MathHelper.Normalize(direction);
 
-                if (MathHelper.LengthSqu(target - obj.Center()) > 10)
+                // follow mouse
+                if (MathHelper.LengthSqu(direction) > 10)
                 {
-                    obj.Velocity = dis * Speed;
+                    obj.Velocity = dirNormal * Speed;
                 }
+
+                // look at mouse
+                var lookAt = MathHelper.LookAt2D(obj.Center(), target);
+                var toAngle = MathHelper.Angle(lookAt);
+                obj.Angle = MathHelper.ToDegrees(toAngle);
+
 
                 if (InputHandler.Instance.IsPressed(SFML.Window.Keyboard.Key.Q))
                 {
